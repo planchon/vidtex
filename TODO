@@ -1,0 +1,12 @@
+* psVidTex TODO LIST:
+** RENDER ENGINEE
+*** TODO Etre capable de comprendre que le fichier qu'on passe est bien un fichier avec une scene
+**** TODO le faire pour les fichier python
+**** TODO le faire pour les fichier JSON (pour avoir l'API plus tard)
+*** TODO Etre capable de parler avec le stream bits de ffmepg
+**** TODO avoir le bon encodage de couleurs
+** API PIPELINE
+** JSON PIPELINE
+** SVG PIPELINE
+** ANIMATION
+
