@@ -12,3 +12,4 @@ else:
     IMAGE_RENDER_DIR = "A DEFINIR"
 
 LATEX_TEMPLATE_FILE = "latex/template.tex"
+LATEX_TEXT_TO_REMPLACE = "textHere"
