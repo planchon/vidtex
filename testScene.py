@@ -1,5 +1,6 @@
 from scene.Scene import Scene
+from animations.Write import Write
 
 class Test(Scene):
-    def test():
-        print("test")
+    def render(self):
+        Write("test")

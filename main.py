@@ -1,3 +1,5 @@
+#coding: utf8
+
 import argparse
 import importlib
 import os
@@ -37,7 +39,7 @@ def getSceneInFile(name, conf):
     if len(name) == 0:
         print("pas de scene")
         return []
-    if len(name) == 1:
+    if len(name) > 0:
         return list(name.values())
     return []
 

@@ -1,0 +1,5 @@
+
+# Je suis une classe qui est capable de créer l'image finale. La seule
+class Container(object):
+    def __init__(self):
+        pass
