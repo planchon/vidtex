@@ -14,5 +14,3 @@ class SVGHandler():
 
     def getIDs(self, svgData):
         return svgData.getElementsByTagName('use')
-    
-    

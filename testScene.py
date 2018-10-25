@@ -3,4 +3,4 @@ from animations.Write import Write
 
 class Test(Scene):
     def render(self):
-        Write("test")
+        Write("teste")

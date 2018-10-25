@@ -31,7 +31,7 @@ class TexGenerator(object):
         result = self.generatePath(".svg")
         if not os.path.exists(result):
             command = ["dvisvgm", str(self.generatePath(".dvi")), "-n", "-v", "0", "-o", result,  ">", "/dev/null"]
-            call(command)
+            os.system(" ".join(command))
             
         return result
 

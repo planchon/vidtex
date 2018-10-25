@@ -8,4 +8,4 @@ class Animation(Container):
         print("Dans animation")
 
     def play(self):
-        pass
+        print("je suis play")
