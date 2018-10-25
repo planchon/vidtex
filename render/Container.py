@@ -5,11 +5,8 @@ import subprocess as sp
 import os
 
 # Je suis la seule class qui peut emetre une image
-class Container(object):
-    frames = []
-    
+class Container(object):    
     def __init__(self):
-        print("dans container")
         pass
         
     def openPipe(self):

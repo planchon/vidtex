@@ -25,7 +25,7 @@ class TexGenerator(object):
         return os.path.join(LATEX_RENDER_DIR, self.fileHased + extension)
     
     def generateUniqueID(self, expression):
-        return hashlib.sha256(expression).hexdigest()[:16]
+        return hashlib.sha256(expression.encode("utf-8")).hexdigest()[:16]
 
     def div_to_svg(self):
         result = self.generatePath(".svg")

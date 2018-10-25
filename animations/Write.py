@@ -6,7 +6,17 @@ from latex.TexGenerator  import TexGenerator
 from render.SvgHandler import SVGHandler
 
 class Write(Animation):
+    buffer = []
+    
     def __init__(self, text, **kwargs):
         latexRender = TexGenerator(text).finalFile
         points = SVGHandler(latexRender)
-    
+
+        print(points.getDefs())
+        
+    def animate(self, t):
+        #on fait l'animation du texte, pour l'instant que le rendering
+        pass
+        
+    def getImage(self, t):
+        return self.animate(t)

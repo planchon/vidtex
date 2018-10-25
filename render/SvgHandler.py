@@ -1,18 +1,24 @@
 from xml.dom import minidom
 
 class SVGHandler():
+
     def __init__(self, svgFile):
         svgData = self.openDocument(svgFile)
-        defs    = self.getDefs(svgData)
-        ids     = self.getIDs(svgData)
+        defs    = self._getDefs(svgData)
+        ids     = self._getIDs(svgData)
         
     def openDocument(self, path):
         return minidom.parse(path)
 
-    def getDefs(self, svgData):
+    def _getDefs(self, svgData):
         return svgData.getElementsByTagName('path')
 
-    def getIDs(self, svgData):
+    def _getIDs(self, svgData):
         return svgData.getElementsByTagName('use')
-    
+
+    def getDefs(self):
+        return self.defs
+
+    def getIDs(self):
+        return self.ids
     
