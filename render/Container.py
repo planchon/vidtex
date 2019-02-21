@@ -29,7 +29,6 @@ class Container(object):
         print("FFMPEG's pipe opened, ", os.getcwd())
 
     def addFrameToMovie(self, frame):
-        print(frame.tostring()[:100])
         self.pipe.stdin.write(frame.tostring())
         self.pipe.stdin.flush()
         print("Frame written")
