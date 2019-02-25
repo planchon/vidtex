@@ -47,7 +47,7 @@ def getMovieInFile(name, conf):
 
 def main():
     config = getConfiguration()
-    fileToRender = getFileToRender(config["file"])
+    fileToRender = getFileToRender(config["file"] + "/movie_main.py")
 
     movieName = dict(inspect.getmembers(fileToRender, isScene))
 

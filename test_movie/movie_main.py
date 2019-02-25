@@ -9,11 +9,10 @@ from test_movie.second_scene import *
 class MovieName(Movie):
     def __init__(self):
         # set constants about the movie here
-        print("movieName -> init")
         Movie.__init__(self)
 
     # TODO: transition et effets entre scene ?
     def prepare(self):
-        self.add_to_timeline(FirstScene, 0, 10)
+        self.add_to_timeline(FirstScene,  0, 10)
         self.add_to_timeline(SecondScene, 10, 20)
     

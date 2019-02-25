@@ -1,15 +1,12 @@
 import bisect
 import inspect
 
-class Timeline(object):
-    timeline_object = {}
-    timeline        = []
-    timeline_index  = []
-    
-    max_id = 0
-    
+class Timeline(object):    
     def __init__(self):
-        pass
+        self.timeline_object = {}
+        self.timeline        = []
+        self.timeline_index  = []
+        self.max_id          = 0
 
     # ajoute un element dans la timeline retourne la timeline_id de l'object
     # prend des frames comme unité de mesure du temps
@@ -17,9 +14,11 @@ class Timeline(object):
         animation_id = self.get_global_id()
         self.timeline_object[animation_id] = animation                      # retourne l'id unique de l'anim
         self.add_into_timeline(start, [start, end, position, animation_id]) # permet d'ajouter dans la liste triée
-
         return animation_id
-        
+
+    def get_timeline_objects(self):
+        return self.timeline_object.items()
+    
     # retourne toutes les animation a faire au temps t
     # retourne une liste d'id
     def get_all_animation_at(self, t):

@@ -4,10 +4,9 @@ sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
 from timeline.Timeline import *
 
 class Movie(object):
-    tl = Timeline()
-    
+
     def __init__(self):
-        print("dans le movie CLASS")
+        self.tl = Timeline()
         self.prepare()
         self.init_all_scene()
     
@@ -18,10 +17,8 @@ class Movie(object):
         pass
     
     def init_all_scene(self):
-        timeline = self.tl.timeline_object.items()
+        timeline = self.tl.get_timeline_objects()
         for scene in timeline:
-            print(timeline, id(timeline))
-            print(scene[1])
             scene[1]()
 
     # ajoute une scene a la tl global, retourne son id (pour les transition par exemple (ou les effets et post))

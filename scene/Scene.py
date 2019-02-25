@@ -4,9 +4,8 @@ from render.Container import Container
 from timeline.Timeline import Timeline
 
 class Scene(Container):
-    tl = Timeline()
-    
     def __init__(self, **kargs):
+        self.tl = Timeline()
         self.prepare()
 
     def add_to_timeline(self, anim, start, end):
