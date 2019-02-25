@@ -9,10 +9,9 @@ class Write(Animation):
     buffer = []
     
     def __init__(self, text, **kwargs):
-        latexRender = TexGenerator(text).finalFile
+        # latexRender = TexGenerator(text).finalFile
         # points = SVGHandler(latexRender)
-
-        print("here")
+        print("animation -> write")
         
     def animate(self, t):
         #on fait l'animation du texte, pour l'instant que le rendering

@@ -1,0 +1,24 @@
+--- AU MOMENT DU DESIGN ---
+
+creer le ficher movie
+faire des scenes
+faire des animations
+
+ajouter les animations dans les scenes
+	-> timeline
+	-> transition
+
+ajouter les scenes dans le movie
+	-> timeline
+	-> transition
+
+--- A LA COMPILATION ---
+
+ouvrir le movie
+creer un timeline tl globale
+aller dans chaque scene et ajouter a tl toutes les animations dans le referentiel du movie (non pas de la scene)
+trouver les doublons (pour eviter de faire 5 fois le meme rendu) // Comment ? hash ?
+faire le rendu
+packer le movie
+export
+

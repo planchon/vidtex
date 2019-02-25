@@ -5,7 +5,7 @@ from animations.Animation import Animation
 
 class FillScreen(Animation):
     def __init__(self, color, **kwargs):
-        print("fillScreen init")
+        print("animation -> fillScreen")
     
     def play(self):
         pass

@@ -8,7 +8,7 @@ import os
 import inspect
 import traceback
 
-from scene.Scene import Scene
+from movie.Movie import Movie
 
 def getConfiguration():
     parser = argparse.ArgumentParser()
@@ -31,39 +31,36 @@ def getFileToRender(fileToRender):
 def isScene(obj):
     if not inspect.isclass(obj):
         return False
-    if not issubclass(obj, Scene):
+    if not issubclass(obj, Movie):
         return False
-    if obj == Scene:
+    if obj == Movie:
         return False
     return True
 
-def getSceneInFile(name, conf):
+def getMovieInFile(name, conf):
     if len(name) == 0:
-        print("pas de scene")
+        print("pas de movie")
         return []
     if len(name) > 0:
         return list(name.values())
     return []
 
-def render(scene):
-    pass
-
 def main():
     config = getConfiguration()
     fileToRender = getFileToRender(config["file"])
 
-    sceneName = dict(inspect.getmembers(fileToRender, isScene))
+    movieName = dict(inspect.getmembers(fileToRender, isScene))
 
-    for SceneClass in getSceneInFile(sceneName, config):
+    movieClass = getMovieInFile(movieName, config)
+
+    for movie in movieClass:
         try:
-            # la en gros on appelle la scene, donc on appelle sa fonction
-            # play et donc on fait le rendu.
-            render(SceneClass())
+            movie()
         except:
-            # la on a eu une erreur (wtf deja) et ensuite on la trace            
-            print("\n\nERROR :\n")
+            print("----- BEGIN ERROR ----- \n")
+            print("ERROR DURING COMPILATION : \n")
             traceback.print_exc()
-            print("END ERROR.\n\n")
-            
+            print("----- END   ERROR -----")
+         
 if __name__ == "__main__":
     main()

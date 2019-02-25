@@ -1,22 +1,23 @@
-# coding: utf-8
+import bisect
+import inspect
 
 class Timeline(object):
-    timeline_object = []
+    timeline_object = {}
     timeline        = []
-
+    timeline_index  = []
+    
     max_id = 0
-    last_time_index = 0
     
     def __init__(self):
         pass
 
-    # ajoute un element dans la timeline retourne la timeline_id de lobject
-    # prend des frames comme unite de mesure du temps
+    # ajoute un element dans la timeline retourne la timeline_id de l'object
+    # prend des frames comme unité de mesure du temps
     def add_object(self, animation, start, end, position):
         animation_id = self.get_global_id()
         self.timeline_object[animation_id] = animation                      # retourne l'id unique de l'anim
         self.add_into_timeline(start, [start, end, position, animation_id]) # permet d'ajouter dans la liste triée
-        
+
         return animation_id
         
     # retourne toutes les animation a faire au temps t
@@ -24,41 +25,31 @@ class Timeline(object):
     def get_all_animation_at(self, t):
         animation_to_render = []
         not_finished = True
-        tmp_time = self.last_time_index
+        tmp_index = 0
+        has_add = False
         
-        while not_finished and (tmp_time < len(self.timeline)):
-            if (self.timeline[tmp_time, 0] < t) and (self.timeline[tmp_time, 1] > t):
-                # on ajoute l'id et la position dans la frame de l'animation
-                animation_to_render.append([self.timeline[tmp_time, 3], self.timeline[tmp_time, 2]]) 
-                # dans le cas ou l'animation se termine
-            if (self.timeline[tmp_time, 1] < t) and (self.timeline[tmp_time, 0] < t):
-                tmp_time += 1
-            if (self.timeline[tmp_time, 0] > t):
-                self.last_time_index = tmp_time
+        while not_finished and (tmp_index < len(self.timeline)):
+            start = self.timeline[tmp_index][0]
+            end   = self.timeline[tmp_index][1]
+            has_add = False
+            
+            # c'est une animation qui convient
+            if t >= start and t <= end:
+                animation_to_render.append([self.timeline[tmp_index][3], self.timeline[tmp_index][2]])
+                tmp_index += 1
+            # on est sur des animations finies
+            if t > end:
+                tmp_index += 1
+            # les animations sont triees, les prochaines commencent apres
+            if t < start:
                 not_finished = False
-
+            
         return animation_to_render
                     
-
-    # retourne la place de l'animation dans la timeline
-    def dichotomic_search(start):
-        l = 0
-        r = len(self.timeline) // 2
-        
-        def dicho(l, r):
-            m = (l + r) // 2
-            if (start <= self.timeline[r, 0]) and (start >= self.timeline[l, 0]):
-                return l
-            if start > self.timeline[r, 0]:
-                dicho(r, r + m)
-            else:
-                dicho(m, r)
-
-        return dicho(l, r)
-
     # ajoute le tuple [start, end, position, animation_id] dans la timeline
     def add_into_timeline(self, start, element):
-        index = dichotomic_search(start)
+        index = bisect.bisect(self.timeline_index, start)
+        self.timeline_index.insert(index, start)
         self.timeline.insert(index, element)
 
     # retourne le prochain id utilisable
