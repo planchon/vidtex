@@ -1,9 +1,9 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
 
-from scene.Scene import Scene
+from scene.scene import Scene
 
-from animations.Write import Write
+from animations.write import Write
 
 class SecondScene(Scene):
     def __init__(self):

@@ -8,7 +8,7 @@ import os
 import inspect
 import traceback
 
-from movie.Movie import Movie
+from movie.movie import Movie
 
 def getConfiguration():
     parser = argparse.ArgumentParser()
@@ -47,8 +47,10 @@ def getMovieInFile(name, conf):
 
 def main():
     config = getConfiguration()
-    fileToRender = getFileToRender(config["file"] + "/movie_main.py")
-
+    if config["file"][-1] == '/':
+        fileToRender = getFileToRender(config["file"] + "movie_main.py")
+    else:
+        fileToRender = getFileToRender(config["file"] + "/movie_main.py")
     movieName = dict(inspect.getmembers(fileToRender, isScene))
 
     movieClass = getMovieInFile(movieName, config)

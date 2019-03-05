@@ -1,5 +1,0 @@
-from Animation import Animation
-
-class Write(Animation):
-    def __init__(self, text, **kwargs):
-        print("dans ANIMATION >> Write")

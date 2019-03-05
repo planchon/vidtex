@@ -1,9 +1,8 @@
 import sys, os
 sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
 
-from animations.Animation import Animation
-from latex.TexGenerator  import TexGenerator
-from render.SvgHandler import SVGHandler
+from animations.animation import Animation
+from latex.texGenerator  import TexGenerator
 
 class Write(Animation):
     buffer = []
@@ -17,5 +16,5 @@ class Write(Animation):
         #on fait l'animation du texte, pour l'instant que le rendering
         pass
         
-    def getImage(self, t):
+    def render(self, t):
         return self.animate(t)

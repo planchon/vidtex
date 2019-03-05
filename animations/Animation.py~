@@ -1,7 +1,0 @@
-import sys
-sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
-
-from render.Container import Container
-
-class Animation(Container):
-    
