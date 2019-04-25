@@ -4,14 +4,16 @@ sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
 import subprocess as sp
 import numpy as np
 from tqdm import tqdm
+import time 
 
 from timeline.timeline import *
 from constants.constants import *
 
 class Movie(object):
     def __init__(self, frame_dimension=(1280,720), frame_rate=60):
+        self.render_location = "/home/paul/psVidTex/out/test.mp4"
         self.tl = Timeline()
-        self.frame_dimension = frame_dimension
+        self.frame_dimension = (frame_dimension[1], frame_dimension[0])
         self.frame_rate = frame_rate
         self.prepare()
         self.this_frame_buffer = []
@@ -24,8 +26,9 @@ class Movie(object):
     def render(self):
         # main render loop
         print("rendering: {0} frames for {1} secondes".format(self.get_movie_duration(), self.get_movie_duration("secondes")))
-        for t in tqdm(range(self.get_movie_duration())):
-            self.this_frame_buffer = np.zeros(np.insert(self.frame_dimension, 2, 3))
+        debut = time.time()
+        for t in tqdm(range(self.get_movie_duration())):    
+            self.this_frame_buffer = np.full(np.insert(self.frame_dimension, 2, 3), [255, 0, 0])
             scene_to_render = self.tl.get_all_animation_at(t)
             for scene in scene_to_render:
                 # we do the render of the animation and clip the render to the the frame, then send the frame to ffmpeg
@@ -33,6 +36,8 @@ class Movie(object):
 
             # add the frame to the video
             self.add_frame_to_video()
+        end = time.time()
+        print("render finished in %fs, movie in : %s" % ((end - debut),self.render_location))
     
     def get_movie_duration(self, dtype="frames"):
         if dtype == "frames":
@@ -43,36 +48,27 @@ class Movie(object):
     # method used in movie subobject, called to init the scene
     def prepare(self):
         pass
-    
-    # create the timeline (and the subtimelines)
-    # initialize all the animation
-    def init_all_scene(self):
-        timeline = self.tl.get_timeline_objects()
-        for i in range(len(timeline)):
-            timeline[i] = timeline[i](self.frame_dimension)
-        
+            
     def open_pipe(self):
         command = [
             "ffmpeg",
             "-y", #overwrite last video if as the same name
             "-f", "rawvideo", #format
             "-vcodec", "rawvideo",
-            "-s", "{0}x{1}".format(FRAME_DIMENSION[0], FRAME_DIMENSION[1]),
+            "-s", "{0}x{1}".format(FRAME_DIMENSION[1], FRAME_DIMENSION[0]),
             "-pix_fmt", "rgb24",
             "-r", str(FRAME_RATE),
             "-i", "-", # work with pipe
             "-an", # no audio
             "-vcodec", "libx264",
-            "-pix_fmt", "yuv420p",
-            "/home/paul/psVidTex/out/test.mp4"
+            self.render_location
         ]
 
         self.pipe = sp.Popen(command, stdin=sp.PIPE, stderr=sp.PIPE)
 
     # push the frame in the ffmpeg pipe to add to the video
     def add_frame_to_video(self):
-        self.pipe.stdin.write(np.array(self.this_frame_buffer, dtype=np.uint8).tostring())
-        self.pipe.stdin.flush()
+        self.pipe.stdin.write(np.uint8(self.this_frame_buffer).tostring())
 
     # close the pipe to finish the movie
     def close_pipe(self):

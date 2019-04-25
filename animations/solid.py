@@ -6,10 +6,11 @@ import numpy as np
 from animations.animation import Animation
 from constants.constants import *
 
-class FillScreen(Animation):
-    def __init__(self, color):
+class Solid(Animation):
+    def __init__(self, shape, pos, color):
         super().__init__()
-        self.buffer = np.full(np.insert(FRAME_DIMENSION, 2, 3), color)
+        self.buffer = np.full(np.insert(shape, 2, 3), color)
+        self.at(pos[0], pos[1])
 
     def render(self, t):
         return self.buffer

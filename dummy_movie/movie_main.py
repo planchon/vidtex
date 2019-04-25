@@ -13,5 +13,4 @@ class MovieName(Movie):
 
     # TODO: transition et effets entre scene ?
     def prepare(self):
-        self.add_to_timeline(FirstScene, 0, 2, dtype="secondes")
-    
+        self.add_to_timeline(FirstScene, 0, 1, dtype="secondes")
