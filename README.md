@@ -3,7 +3,9 @@ Un logiciel permettant de créer des vidéos en python.
 
 ## Utilisation
 `pdflatex`, `python3`, `ffmpeg` doivent être installé pour faire fonctionner ce projet.
-* `python3 FILE.py` pour lancer le rendu
+* `./main.py DOSSIER_FILM` pour lancer le rendu
+
+Dans le dossier film, le logiciel doit trouver un fichier `movie_main.py`, ce qui servira de timeline principale.
 
 ## Licence
 Copyright © Paul Planchon 2018
