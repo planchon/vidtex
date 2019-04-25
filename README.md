@@ -7,6 +7,8 @@ Un logiciel permettant de créer des vidéos en python.
 
 Dans le dossier film, le logiciel doit trouver un fichier `movie_main.py`, ce qui servira de timeline principale.
 
+L'utilisation de la timeline sera expliquée dans le Wiki.
+
 ## Licence
 Copyright © Paul Planchon 2018
 Vous pouvez utiliser / modifier ce logiciel si vous me citez dans votre logiciel. Les utilisations commerciales ne sont pas autorisées sans autorisation.
