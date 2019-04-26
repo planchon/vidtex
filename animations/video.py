@@ -24,6 +24,8 @@ class Video(Animation):
         self.cap = cv2.VideoCapture(self.video_path)
         self.half_video = False
         self.focus_on_head = False
+        self.head_classifier = cv2.CascadeClassifier("/home/paul/psVidTex/constants/haar.xml")
+
 
     def change_video_frame_rate(self, frame_rate):
         new_filename = os.path.splitext(self.raw_video_path)[0] + "_new_fr.mp4"
@@ -85,7 +87,14 @@ class Video(Animation):
         return metadata
 
     def focus_on_head(self, bool):
-        pass
+        self.focus_on_head = bool
+
+    def search_for_face(self, frame):
+        # on convertit l'image en nuance de gris
+        data = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # constants ?
+        faces = self.head_classifier.detectMultiScale(data, 1.3, 5)
+        return faces
 
     def set_half_video(self, bool, direction=GAUCHE):
         self.half_video = True
@@ -102,4 +111,8 @@ class Video(Animation):
 
             return buffer
         else:
-            return self.get_video_frame(t)
+            frame = self.get_video_frame(t)
+            faces_data = self.search_for_face(frame)
+            for (x,y,w,h) in faces_data:
+                cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 2)
+            return frame

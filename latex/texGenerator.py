@@ -3,7 +3,7 @@ from subprocess import call
 sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
 
 import hashlib
-from constants import *
+from constants.constants import *
 
 class TexGenerator(object):
     expression  = ""

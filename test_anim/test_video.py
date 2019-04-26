@@ -6,9 +6,8 @@ from animations.video import *
 from PIL import Image
 
 def main():
-	video = Video("test_anim/dummy_video.mp4", (0,1))
-	video.set_half_video(True)
-	im = Image.fromarray(np.uint8(video.render(1)))
+	video = Video("test_anim/cut.mp4", (0,1))
+	im = Image.fromarray(np.uint8(video.render(15)))
 	im.show()
 
 if __name__ == '__main__':
