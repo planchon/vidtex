@@ -1,6 +1,7 @@
 import numpy as np
 
 import cv2
+import traceback
 
 from timeline.timeline import Timeline
 from constants.constants import *
@@ -10,7 +11,13 @@ from PIL import Image
 class Scene():
     def __init__(self):
         self.tl = Timeline()
-        self.prepare()
+        try:
+            self.prepare()
+        except Exception:
+            print("----- BEGIN PREPARE ERROR ----- \n")
+            traceback.print_exc()
+            print("----- END PREPARE ERROR -----")
+            return
         self.frame_dimension = FRAME_DIMENSION
         self.scene_duration = self.tl.get_timeline_duration()
         self.buffer = []

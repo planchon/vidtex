@@ -112,7 +112,7 @@ class Video(Animation):
             return buffer
         else:
             frame = self.get_video_frame(t)
-            faces_data = self.search_for_face(frame)
-            for (x,y,w,h) in faces_data:
-                cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 2)
+            # faces_data = self.search_for_face(frame)
+            # for (x,y,w,h) in faces_data:
+            #     cv2.rectangle(frame, (x,y), (x+w, y+h), (255,0,0), 2)
             return frame

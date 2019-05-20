@@ -4,7 +4,8 @@ sys.path.insert(0, os.path.join(os.path.expanduser('~'), "psVidTex/"))
 import subprocess as sp
 import numpy as np
 from tqdm import tqdm
-import time 
+import time
+import traceback
 
 from timeline.timeline import *
 from constants.constants import *
@@ -30,9 +31,10 @@ class Movie(object):
         for t in tqdm(range(self.get_movie_duration())):    
             self.this_frame_buffer = np.full(np.insert(self.frame_dimension, 2, 3), [255, 0, 0])
             scene_to_render = self.tl.get_all_animation_at(t)
-            for scene in scene_to_render:
+            list_scene = [(scene["animation"], scene["start"]) for scene in scene_to_render]
+            for scene, start in list_scene:
                 # we do the render of the animation and clip the render to the the frame, then send the frame to ffmpeg
-                self.this_frame_buffer = scene["animation"].render(t - scene["start"])
+                self.this_frame_buffer = scene.render(t - start)
 
             # add the frame to the video
             self.add_frame_to_video()

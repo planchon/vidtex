@@ -57,11 +57,10 @@ def main():
     for movie in movieClass:
         try:
             movie()
-        except:
+        except Exception:
             print("----- BEGIN ERROR ----- \n")
-            print("ERROR DURING COMPILATION : \n")
             traceback.print_exc()
             print("----- END   ERROR -----")
-         
+            
 if __name__ == "__main__":
     main()
