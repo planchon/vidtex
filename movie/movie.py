@@ -6,20 +6,34 @@ import numpy as np
 from tqdm import tqdm
 import time
 import traceback
+from os import system
 
 from timeline.timeline import *
 from constants.constants import *
 
 class Movie(object):
     def __init__(self, frame_dimension=(1280,720), frame_rate=60):
-        self.render_location = "/home/paul/psVidTex/out/test.mp4"
+        self.render_location = "out/test.mp4"
         self.tl = Timeline()
         self.frame_dimension = (frame_dimension[1], frame_dimension[0])
         self.frame_rate = frame_rate
-        self.prepare()
+        try:
+            self.prepare()
+        except Exception:
+            print("----- ERROR : MOVIE_PREPARE ----- \n")
+            traceback.print_exc()
+            print("----- ERROR : MOVIE_PREPARE -----")
+            exit(0)
+            
         self.this_frame_buffer = []
         self.open_pipe()
-        self.render()
+        try:
+            self.render()
+        except Exception:
+            print("----- ERROR : MOVIE_RENDER ----- \n")
+            traceback.print_exc()
+            print("----- ERROR : MOVIE_RENDER -----")
+            exit(0)
         self.close_pipe()
 
     # go in the scene, do all the animation render, clip the animation render and repeat
@@ -34,7 +48,14 @@ class Movie(object):
             list_scene = [(scene["animation"], scene["start"]) for scene in scene_to_render]
             for scene, start in list_scene:
                 # we do the render of the animation and clip the render to the the frame, then send the frame to ffmpeg
-                self.this_frame_buffer = scene.render(t - start)
+                try:
+                    self.this_frame_buffer = scene.render(t - start)
+                except Exception:
+                    print("----- ERROR : MOVIE_RENDER_LOOP ----- \n")
+                    traceback.print_exc()
+                    print("----- ERROR : MOVIE_RENDER_LOOP -----")
+                    exit(0)
+                        
 
             # add the frame to the video
             self.add_frame_to_video()
@@ -66,13 +87,32 @@ class Movie(object):
             self.render_location
         ]
 
-        self.pipe = sp.Popen(command, stdin=sp.PIPE, stderr=sp.PIPE)
+        try:
+            self.pipe = sp.Popen(command, stdin=sp.PIPE, stderr=sp.PIPE)
+        except Exception:
+            print("----- ERROR : OPENING_PIPE ----- \n")
+            traceback.print_exc()
+            print("----- ERROR : OPENING_PIPE -----")
+            print("----- PIPE_INFO : ")
+            print(" [1] command = {}".format(command))
+            exit(0)
+
+
 
     # push the frame in the ffmpeg pipe to add to the video
     def add_frame_to_video(self):
-        self.pipe.stdin.write(np.uint8(self.this_frame_buffer).tostring())
+        try:
+            self.pipe.stdin.write(np.uint8(self.this_frame_buffer).tostring())
+        except Exception:
+            print("----- ERROR : MOVIE_PIPE ----- \n")
+            traceback.print_exc()
+            print("----- ERROR : MOVIE_PIPE -----")
+            print("----- PIPE_INFO : ")
+            print(" [1] frame_shape    = {}".format(self.this_frame_buffer.shape))
+            print(" [2] frame_is_empty = {}".format([sum(sum(self.this_frame_buffer))] == [0, 0, 0]))
+            print(" [3] pipe_info      = {}".format(self.pipe))
+            exit(0)
 
-    # close the pipe to finish the movie
     def close_pipe(self):
         self.pipe.stdin.close()
         self.pipe.wait()

@@ -8,8 +8,12 @@ class Animation():
 
 	def render(self):
 		pass
+
+	def get_properties(self):
+		return {}
 		
 	# change the position of the animation 
 	def at(self, x, y):
 		self.pos_x = x
 		self.pos_y = y
+		return self
